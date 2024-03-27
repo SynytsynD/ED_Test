@@ -1,3 +1,3 @@
 <?php
-echo "Testing PHP-FPM on Docker."
+echo "PHP-FPM on Docker."
 ?>
