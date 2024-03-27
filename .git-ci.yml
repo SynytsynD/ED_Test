@@ -1,1 +1,23 @@
+stages:
+  - build
+  - test
+  - deploy
 
+image: docker:latest
+
+build-job:
+  stage: build
+  script:
+    - docker-compose -f docker-compose.prod.yml build
+    - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - docker-compose -f docker-compose.prod.yml push
+  
+test-job:
+  stage: test
+  script:
+    - echo "The best test ever!"  
+
+deploy-job:
+  stage: deploy
+  script: 
+    - ssh someUser@prod "docker-compose -f docker-compose.prod.yml down && docker-compose -f docker-compose.prod.yml pull && docker-compose -f docker-compose.prod.yml up -d"
