@@ -1,0 +1,22 @@
+version: '3.9' 
+
+services:
+
+  php-fpm:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/var/www/html
+    restart: always
+  nginx:
+    build: 
+      context: .
+      dockerfile: ./nginx/Dockerfile
+    ports:
+      - 443:443
+    volumes:
+      - ./app:/var/www/html 
+    restart: always
+    depends_on:
+      - php-fpm
